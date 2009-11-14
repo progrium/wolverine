@@ -31,3 +31,9 @@ form {
 form div {
     padding: 2px;
 }
+#subscriptionList form {
+    display: inline;
+}
+#subscriptionList .submitResult {
+    display: inline;
+}

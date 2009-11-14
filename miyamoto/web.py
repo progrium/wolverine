@@ -32,12 +32,25 @@ class MiyamotoResource(Resource):
 
     def index(self):
         
-        def subscriberRow(url):
-            return '<div><a href="%s">%s</a></div>' % (url, url)
+        def subscriberRow(url, topic):
+            return '''
+              <div>
+                <a href="%(url)s">%(url)s</a>
+                <form method="post" action="subscribe">
+                  <input type="hidden" name="hub.callback" value="%(url)s"/>
+                  <input type="hidden" name="hub.topic" value="%(topic)s"/>
+                  <input type="hidden" name="hub.mode" value="unsubscribe"/>
+                  <input type="hidden" name="hub.verify" value="sync"/>
+                  <input type="submit" value="Unsub"/>
+                  <div class="submitResult"> </div>
+                </form>
+              </div>''' % vars()
 
         subscriptionList = "\n".join(
-            '<dt>Topic: <span class="topic">%s</span></dt><dd>%s</dd>' % (
-                topic, '\n'.join(map(subscriberRow, subscribers)))
+            '''<dt>Topic: <span class="topic">%s</span></dt>
+               <dd>%s</dd>
+               ''' % (
+                topic, '\n'.join(subscriberRow(s, topic) for s in subscribers))
             for topic, subscribers in
             sorted(pubsub.subscriptions.items()))
 

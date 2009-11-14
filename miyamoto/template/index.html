@@ -6,15 +6,18 @@
     <script type="text/javascript">
       // <![CDATA[
       $(function() {
-	  var submit = $("#createForm input[type=submit]");
-	  submit.click(function () {
-	      var res = $("#submitResult");
+	  submits = $("#subscriptionList input[type=submit], #createForm input[type=submit]");
+
+	  submits.click(function () {
+	      var submit = $(this);
+	      var form = submit.closest("form");
+	      var res = submit.next();
 	      res.text("Submitting...");
 	      submit.attr("disabled", true);
 	      $.ajax({
 		  type: "POST",
-		  url: $("#createForm").attr("action"),
-		  data: $("#createForm").serialize(),
+		  url: form.attr("action"),
+		  data: form.serialize(),
 		  complete: function (xhr, textStatus) {
 		      submit.attr("disabled", false);
 		      if (textStatus == "success") { 
@@ -27,6 +30,7 @@
 	      });
 	      return false;
 	  });
+
       });
       // ]]>
     </script>
@@ -46,11 +50,13 @@
       <option value="sync">sync</option>
       <option value="async">async</option>
       </select></div>
-      <div><input type="submit" value="Submit"/></div>
-      <div id="submitResult"> </div>
+      <div>
+	<input type="submit" value="Submit"/>
+	<div class="submitResult"> </div>
+      </div>
     </form>
     <h2>Current subscriptions</h2>
-    <dl>%(subscriptionList)s</dl>
+    <dl id="subscriptionList">%(subscriptionList)s</dl>
     <h2>Sample post</h2>
     <form method="post" action="dispatch">
       <p>Post to /dispatch:</p>
