@@ -12,6 +12,7 @@ setup(
   classifiers=[
     ],
   packages=['miyamoto'],
-  data_files=[('miyamoto', ['miyamoto/static/styles.css'])],
+  data_files=[('miyamoto/static', ['miyamoto/static/styles.css']),
+              ('miyamoto/template', ['miyamoto/template/index.html'])],
   scripts=['bin/miyamoto'],
 )

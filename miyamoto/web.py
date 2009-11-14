@@ -1,3 +1,4 @@
+import os
 from twisted.python.util import sibpath
 from twisted.web import client, error, http, static
 from twisted.web.resource import Resource
@@ -39,33 +40,9 @@ class MiyamotoResource(Resource):
                 topic, '\n'.join(map(subscriberRow, subscribers)))
             for topic, subscribers in
             sorted(pubsub.subscriptions.items()))
-        
-        return """<html>
-                    <head>
-		      <title>hookah admin</title>
-		      <link rel="stylesheet" href="style.css"/>
-		    </head>
-		    <body>
-		      <h1>hookah admin</h1>
-                      <h2>Create subscription</h2>
-                      <form method="post" action="subscribe">
-                        <div>Callback URL (POST target):
-                             <input type="text" name="hub.callback"/></div>
-                        <div>Topic: <input type="text" name="hub.topic"/></div>
-                        <div>Mode: <select name="hub.mode">
-                          <option value="subscribe">subscribe</option>
-                          <option value="unsubscribe">unsubscribe</option>
-                          </select></div>
-                        <div>Verify: <select name="hub.verify">
-                          <option value="sync">sync</option>
-                          <option value="async">async</option>
-                          </select></div>
-                        <div><input type="submit" value="Submit"/></div>
-                      </form>
-		      <h2>Current subscriptions</h2>
-		      <dl>%(subscriptionList)s</dl>
-		    </body>
-                  </html>""" % vars()
+
+        return open(os.path.join(os.path.dirname(__file__),
+                                 "template/index.html")).read() % vars()
 
     
     @classmethod
