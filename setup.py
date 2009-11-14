@@ -11,7 +11,7 @@ setup(
   download_url="http://github.com/progrium/miyamoto/tarball/master",
   classifiers=[
     ],
-  packages=['miyamoto'],
+  packages=['miyamoto', 'miyamoto.test'],
   data_files=[('miyamoto/static', ['miyamoto/static/styles.css']),
               ('miyamoto/template', ['miyamoto/template/index.html'])],
   scripts=['bin/miyamoto'],
