@@ -2,11 +2,39 @@
   <head>
     <title>hookah admin</title>
     <link rel="stylesheet" href="style.css"/>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"/></script>
+    <script type="text/javascript">
+      // <![CDATA[
+      $(function() {
+	  var submit = $("#createForm input[type=submit]");
+	  submit.click(function () {
+	      var res = $("#submitResult");
+	      res.text("Submitting...");
+	      submit.attr("disabled", true);
+	      $.ajax({
+		  type: "POST",
+		  url: $("#createForm").attr("action"),
+		  data: $("#createForm").serialize(),
+		  complete: function (xhr, textStatus) {
+		      submit.attr("disabled", false);
+		      if (textStatus == "success") { 
+			  res.text("Refreshing this page");
+			  location.reload();
+		      } else {
+			  res.text(textStatus + ": " + xhr.responseText);
+		      }
+		  }
+	      });
+	      return false;
+	  });
+      });
+      // ]]>
+    </script>
   </head>
   <body>
     <h1>hookah admin</h1>
     <h2>Create subscription</h2>
-    <form method="post" action="subscribe">
+    <form method="post" action="subscribe" id="createForm">
       <div>Callback URL (POST target):
       <input type="text" name="hub.callback"/></div>
       <div>Topic: <input type="text" name="hub.topic"/></div>
@@ -19,6 +47,7 @@
       <option value="async">async</option>
       </select></div>
       <div><input type="submit" value="Submit"/></div>
+      <div id="submitResult"> </div>
     </form>
     <h2>Current subscriptions</h2>
     <dl>%(subscriptionList)s</dl>
@@ -27,7 +56,7 @@
       <p>Post to /dispatch:</p>
       <ul>
 	<p>_topic=<input type="text" name="_topic"/></p>
-	<p>x=<input type="text" name="x"/></p>
+	<p>x=<input type="text" name="x" value="1" size="3"/></p>
       </ul>
       <p><input type="submit" value="Submit"/></p>
     </form>
