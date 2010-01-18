@@ -1,6 +1,6 @@
 from twisted.web import client, error, http, server
 from twisted.web.resource import Resource
-from hookah import queue
+from miyamoto import queue
 
 # known sessions, session list
 # request gets a queue

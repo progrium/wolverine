@@ -6,6 +6,8 @@ from twisted.web.server import Site
 from twisted.python import log
 from optparse import OptionParser
 
+sys.path.append('.')
+
 from miyamoto.web import MiyamotoResource
 
 parser = OptionParser()
