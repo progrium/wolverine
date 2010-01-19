@@ -5,6 +5,7 @@ from twisted.web.resource import Resource
 
 from miyamoto import pubsub, stream
 
+
 class MiyamotoResource(Resource):
     isLeaf = False
     
